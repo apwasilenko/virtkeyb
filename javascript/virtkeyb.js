@@ -1,16 +1,15 @@
-let input_line = String(mytable.rows[0].cells[0].innerHTML);
 function invert_input_line(){
+let input_line = String(mytable.rows[0].cells[0].innerHTML);
   console.log(input_line);
   if (input_line.indexOf("|") != -1){
-    input_line = input_line.slice(0, input_line.length -1);
-    console.log("Убрал");
+    input_line = input_line.slice(0, input_line.length -1)+':';
   }
   else{
-    console.log("Добавил");
-    input_line = input_line + "|";
+
+    input_line = input_line.slice(0, input_line.length -1) + "|";
   }
   console.log(input_line);
-  mytable.rows[0].cells[0].innerHTM = input_line;
+  mytable.rows[0].cells[0].innerHTML = input_line;
   
 }
 
@@ -46,4 +45,4 @@ document.onload = function () {
 
 }
 
-setInterval(invert_input_line(),500);
+setInterval(invert_input_line,1000);
