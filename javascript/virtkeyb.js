@@ -2,11 +2,10 @@ function invert_input_line(){
 let input_line = String(mytable.rows[0].cells[0].innerHTML);
   console.log(input_line);
   if (input_line.indexOf("|") != -1){
-    input_line = input_line.slice(0, input_line.length -1)+':';
+    input_line = input_line.slice(0, input_line.indexOf("|")) + ':' + input_line.slice(input_line.indexOf("|") + 1, input_line.length);
   }
   else{
-
-    input_line = input_line.slice(0, input_line.length -1) + "|";
+    input_line = input_line.slice(0, input_line.indexOf(":")) + '|' + input_line.slice(input_line.indexOf(":") + 1, input_line.length);
   }
   console.log(input_line);
   mytable.rows[0].cells[0].innerHTML = input_line;
