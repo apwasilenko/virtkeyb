@@ -1,50 +1,62 @@
+const myinputline = {
+  inLine   : 0,              //входные данные number
+  outLine  : '',             //выходные данные String
+  position : 0,              //позиция курсора
 
-class myUser {
-  constructor(props) {
-    this.name = props.name;
-    this.dateOfdob = props.dob;
-  }
-  
-  firstName = 'w';
-  lastName = 'q';
-  mob = '';
-  dob = '';
-  yob = '';
-  
-  set name(newName) {
-    const nameRow = newName.split (' ');
-    this.firstName = nameRow[0];
-    this.lastName = nameRow[1];
-  }
+  getLine : function() {     //преабразуем число в форматированную строку
+    this.outLine = String(inline);
+  },
 
-  get name() {
-    return `${this.firstName} ${this.lastName}`;
-  }
-
-  get age() {
-    return new Date(Date.parse(new Date())-Date.parse(this.yob, this.mob - 1, this.dob)).getFullYear() - 1971;
-  }
-
-  set dateOfdob(date) {
-      const dateRow = date.split('-');
-      this.dob = Number(dateRow[0]);
-      this.mob = Number(dateRow[1]);
-      this.yob = Number(dateRow[2]);
-  }
-
-  get dateOfdob() {
-    return `${this.mob}-${this.dob}-${this.yob}`;
+  setLine : function(num){   //Считывает число
+    this.inLine = num;
   }
 
 }
 
-
-
-
-const reg1User = new myUser({
-  name: 'Anton Vasilenko',
-  dob: '12-12-1977',
-});
-
-console.dir(reg1User);
-console.dir(reg1User.age);
+function invert_input_line(){
+  let input_line = String(mytable.rows[0].cells[0].innerHTML);
+    console.log(input_line);
+    if (input_line.indexOf("|") != -1){
+      input_line = input_line.slice(0, input_line.indexOf("|")) + ':' + input_line.slice(input_line.indexOf("|") + 1, input_line.length);
+    }
+    else{
+      input_line = input_line.slice(0, input_line.indexOf(":")) + '|' + input_line.slice(input_line.indexOf(":") + 1, input_line.length);
+    }
+    console.log(input_line);
+    mytable.rows[0].cells[0].innerHTML = input_line;
+    
+  }
+  
+  document.onclick = function(e){
+    if (e.target.attributes.data != undefined){
+      if (e.target.attributes.data.value != undefined){
+        switch (e.target.attributes.data.value){
+          case "0":
+          case "1":
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+          case "6":
+          case "7":          
+          case "8":
+          case "9":
+            console.log("Нажата клавиша - " + e.target.attributes.data.value);
+            console.log(mytable.rows[0].cells[0].innerHTML);
+  
+            mytable.rows[0].cells[0].innerHTML = mytable.rows[0].cells[0].innerHTML + e.target.attributes.data.value;
+            break;
+  
+            default:
+              console.log("Нет таких значений" );
+        }
+      }
+    }
+  }
+  
+  document.onload = function () {
+  
+  }
+  
+  setInterval(invert_input_line,1000);
