@@ -2,32 +2,31 @@ const myinputline = {
   inLine   : 0,              //входные данные number
   outLine  : '',             //выходные данные String
   position : 0,              //позиция курсора
+  flag     : true,           //тип указателя текущей позиции
 
   getLine : function() {     //преабразуем число в форматированную строку
-    this.outLine = String(inline);
+
+    let input_line = String(this.inLine);
+    if (this.flag == true) {
+      input_line = input_line.slice(0, this.position) + ':' + input_line.slice(this.position, input_line.length);
+    }
+    else {
+      input_line = input_line.slice(0, this.position) + '|' + input_line.slice(this.position, input_line.length);
+    }
+    console.log(input_line);
+    this.outLine = String(input_line);
+    return String(input_line);
   },
 
-  setLine : function(num){   //Считывает число
+  setLine : function(num){   //Считывает число.
     this.inLine = num;
+    this.position = String(num).length;
   }
-
 }
 
-function invert_input_line(){
-  let input_line = String(mytable.rows[0].cells[0].innerHTML);
-    console.log(input_line);
-    if (input_line.indexOf("|") != -1){
-      input_line = input_line.slice(0, input_line.indexOf("|")) + ':' + input_line.slice(input_line.indexOf("|") + 1, input_line.length);
-    }
-    else{
-      input_line = input_line.slice(0, input_line.indexOf(":")) + '|' + input_line.slice(input_line.indexOf(":") + 1, input_line.length);
-    }
-    console.log(input_line);
-    mytable.rows[0].cells[0].innerHTML = input_line;
-    
-  }
-  
-  document.onclick = function(e){
+
+
+  document.onclick = function(e){//обработка нажатия на объект в HTML станице
     if (e.target.attributes.data != undefined){
       if (e.target.attributes.data.value != undefined){
         switch (e.target.attributes.data.value){
@@ -42,21 +41,45 @@ function invert_input_line(){
           case "7":          
           case "8":
           case "9":
-            console.log("Нажата клавиша - " + e.target.attributes.data.value);
-            console.log(mytable.rows[0].cells[0].innerHTML);
-  
-            mytable.rows[0].cells[0].innerHTML = mytable.rows[0].cells[0].innerHTML + e.target.attributes.data.value;
+            myinputline1.setLine(myinputline1.inLine + e.target.attributes.data.value, myinputline1.position +1);
+            mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
             break;
-  
+
+          case ">>":
+            if (myinputline1.position < myinputline1.getLine().length){
+              myinputline1.position = myinputline1.position + 1;
+              mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
+            }
+            break;
+          
+          case "<<":
+            if (myinputline1.position > 0) {
+              myinputline1.position = myinputline1.position - 1;
+              mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
+            }
+            break;
+
             default:
-              console.log("Нет таких значений" );
+            console.log("Нет таких значений", e.target.attributes.data.value);
+            break;
         }
       }
     }
+}
+
+
+const myinputline1 = { ...myinputline};
+myinputline1.setLine(12345);
+mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
+
+const my_invert = () => {
+  if (myinputline1.flag == true){
+    myinputline1.flag = false;
   }
-  
-  document.onload = function () {
-  
+  else {
+    myinputline1.flag = true;
   }
-  
-  setInterval(invert_input_line,1000);
+  mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
+}
+
+setInterval(my_invert, 1000);
