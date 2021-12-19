@@ -13,7 +13,6 @@ const myinputline = {
     else {
       input_line = input_line.slice(0, this.position) + '|' + input_line.slice(this.position, input_line.length);
     }
-    console.log(input_line);
     this.outLine = String(input_line);
     return String(input_line);
   },
@@ -21,7 +20,13 @@ const myinputline = {
   setLine : function(num){   //Считывает число.
     this.inLine = num;
     this.position = String(num).length;
-  }
+  },
+
+  addChar : function(newChar){   //Добавляем символ в строку.
+    let strLine = String(this.inLine);
+    this.inLine = Number(strLine.slice(0, this.position) + newChar + strLine.slice(this.position, strLine.length));
+    this.position = this.position + 1;
+  },
 }
 
 
@@ -41,7 +46,7 @@ const myinputline = {
           case "7":          
           case "8":
           case "9":
-            myinputline1.setLine(myinputline1.inLine + e.target.attributes.data.value, myinputline1.position +1);
+            myinputline1.setLine(e.target.attributes.data.value);
             mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
             break;
 
@@ -53,6 +58,13 @@ const myinputline = {
             break;
           
           case "<<":
+            if (myinputline1.position > 0) {
+              myinputline1.position = myinputline1.position - 1;
+              mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
+            }
+            break;
+          
+          case "del":
             if (myinputline1.position > 0) {
               myinputline1.position = myinputline1.position - 1;
               mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
