@@ -25,10 +25,21 @@ const myinputline = {
   addChar : function(newChar){   //Добавляем символ в строку.
     let strLine = String(this.inLine);
     this.inLine = Number(strLine.slice(0, this.position) + newChar + strLine.slice(this.position, strLine.length));
-    this.position = this.position + 1;
+    this.position = this.position +1;
+  },
+
+  backChar : function(){   //Удаляем символ в строке.
+    if (this.position >0){
+      let strLine = String(this.inLine);
+      this.inLine = Number(strLine.slice(0, this.position - 1) + strLine.slice(this.position, strLine.length));
+      this.position = this.position - 1;
+    }
+    if (this.inLine == 0) {
+      this.position = 1;
+    }
+
   },
 }
-
 
 
   document.onclick = function(e){//обработка нажатия на объект в HTML станице
@@ -46,7 +57,7 @@ const myinputline = {
           case "7":          
           case "8":
           case "9":
-            myinputline1.setLine(e.target.attributes.data.value);
+            myinputline1.addChar(e.target.attributes.data.value);
             mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
             break;
 
@@ -64,11 +75,9 @@ const myinputline = {
             }
             break;
           
-          case "del":
-            if (myinputline1.position > 0) {
-              myinputline1.position = myinputline1.position - 1;
-              mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
-            }
+          case "back":
+            myinputline1.backChar();
+            mytable.rows[0].cells[0].innerHTML = myinputline1.getLine();
             break;
 
             default:
